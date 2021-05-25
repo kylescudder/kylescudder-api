@@ -4,15 +4,19 @@ import express from 'express';
 import { __prod__ } from './constants';
 import { Strategy as GitHubStrategy } from "passport-github"
 import passport from 'passport';
-import { User } from './entities/User';
 import jwt from "jsonwebtoken";
-import cors from 'cors';
 import { isAuth } from './isAuth';
 const MJ_APIKEY_PUBLIC = process.env.MJ_APIKEY_PUBLIC;
 const MJ_APIKEY_PRIVATE = process.env.MJ_APIKEY_PRIVATE;
 const MongoClient = require('mongodb').MongoClient
 
 const main = async () => {
+    const app = express();
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
     MongoClient.connect('mongodb+srv://vscodetodo_user:D9qKLE2wVBH2R68b@vscodetodo.nsbh7.mongodb.net/vscodetodo?retryWrites=true&w=majority', {
       useUnifiedTopology: true })
       .then((client: any) => {
@@ -125,48 +129,54 @@ const main = async () => {
             .toArray();
           return todos;
         }
+
+        passport.use(new GitHubStrategy({
+          clientID: process.env.GITHUB_CLIENT_ID,
+          clientSecret: process.env.GITHUB_CLIENT_SECRET,
+          callbackURL: `${process.env.API_URL}/auth/github/callback`
+        },
+          async (_, __, profile, cb) => {
+            let user = await db.collection('user').findOne({
+              githubId: profile.id
+            });
+            if (user) {
+                user.name = profile.displayName
+            } else {
+              await db.collection('user').insertOne({
+                name: profile.displayName, 
+                githubId: profile.id,
+              });
+              user = await db.collection('user').findOne({
+                githubId: profile.id
+              });
+            }
+            cb(null, {
+                accessToken: jwt.sign(
+                    {userId: user.id }, 
+                    process.env.ACCESS_TOKEN_SECRET, {
+                    expiresIn: "1y",
+                }),
+            });
+          }
+        ));
       })
       .catch((error: any) => console.error(error))
     
-    const app = express();
     passport.serializeUser(function(user: any, done) {
         done(null, user.accessToken);
     });
-    app.use(cors({origin: '*'}));
     app.use(passport.initialize());
     app.use(express.json());
 
-    passport.use(new GitHubStrategy({
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: `${process.env.API_URL}/auth/github/callback`
-      },
-      async (_, __, profile, cb) => {
-        let user = await User.findOne({where: {githubId: profile.id}});
-        if (user) {
-            user.name = profile.displayName
-            await user.save();
-        } else {
-            user = await User.create({name: profile.displayName, githubId: profile.id}).save()
-        }
-        cb(null, {
-            accessToken: jwt.sign(
-                {userId: user.id }, 
-                process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: "1y",
-            }),
-        });
-      }
-    ));
-
     app.get('/auth/github',
-    passport.authenticate('github', { session: false }));
+      passport.authenticate('github', { session: false })
+    );
 
     app.get(
         '/auth/github/callback', 
         passport.authenticate('github', { session: false }),
         (req: any, res) => {
-            res.redirect(`${process.env.API_URL}/auth/${req.user.accessToken}`)
+            res.redirect(`${process.env.EXTENSION_URL}/auth/${req.user.accessToken}`)
         }
     );
 
