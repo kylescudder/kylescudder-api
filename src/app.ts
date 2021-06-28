@@ -11,12 +11,6 @@ const MJ_APIKEY_PRIVATE = process.env.MJ_APIKEY_PRIVATE;
 const MongoClient = require('mongodb').MongoClient
 
 const main = async () => {
-    const app = express();
-    app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      next();
-    });
     MongoClient.connect('mongodb+srv://vscodetodo_user:D9qKLE2wVBH2R68b@vscodetodo.nsbh7.mongodb.net/vscodetodo?retryWrites=true&w=majority', {
       useUnifiedTopology: true })
       .then((client: any) => {
@@ -180,7 +174,7 @@ const main = async () => {
         }
     );
 
-    app.post("/GHIssueBeautifier/authenticate", (req, res) => {
+    app.post("/GHIssueBeautifier/authenticate", async (req, res) => {
       const { code } = req.body;
       const data = new FormData();
       data.append("client_id", process.env.CLIENT_ID!);
@@ -189,46 +183,41 @@ const main = async () => {
       data.append("redirect_uri", process.env.REDIRECT_URI!);
       let access_token = "";
       // Request to exchange code for an access token
-      fetch(`https://github.com/login/oauth/access_token`, {
-        method: "POST",
-        body: data,
-      })
-        .then((response) => response.text())
-        .then((paramsString) => {
-          let params = new URLSearchParams(paramsString);
-          access_token = params.get("access_token")!;
-          // Request to return data of a user that has been authenticated
-          return fetch(`https://api.github.com/user`, {
-            headers: {
-              Authorization: `token ${access_token}`,
-            },
-          });
+      try {
+        const response = await fetch(`https://github.com/login/oauth/access_token`, {
+          method: "POST",
+          body: data,
         })
-        .then((response) => response.json())
-        .then((response) => {
-          return res.status(200).json(response);
-        })
-        .catch((error) => {
-          return res.status(400).json(error);
+        const responseData = await response.text()
+        let params = new URLSearchParams(responseData);
+        access_token = params.get("access_token")!;
+        const userResponse = await fetch(`https://api.github.com/user`, {
+          headers: {
+            Authorization: `token ${access_token}`,
+          },
         });
+        const userResponseJSON = await userResponse.json()
+        return res.status(200).json(userResponseJSON);
+      } catch(err) {
+        return res.status(400).json(err);
+      }
     });
     
-    app.post("/GHIssueBeautifier/issues", (req, res) => {
+    app.post("/GHIssueBeautifier/issues", async (req, res) => {
       const { repo } = req.body;
       // Request to exchange code for an access token
-      fetch(`https://api.github.com/repos/PalomaSystems/${repo}/issues`, {
-        headers: {
-          Authorization: `token ${process.env.PERSONAL_ACCESS_TOKEN}`,
-        },
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          return res.status(200).json(response);
+      try {
+        const response = await fetch(`https://api.github.com/repos/PalomaSystems/${repo}/issues`, {
+          headers: {
+            Authorization: `token ${process.env.PERSONAL_ACCESS_TOKEN}`,
+          },
+          method: "GET",
         })
-        .catch((error) => {
-          return res.status(400).json(error);
-        });
+        const responseJSON = await response.json()
+        return res.status(200).json(responseJSON);     
+      } catch (err) {
+        return res.status(400).json(err)
+      }
     });
     app.post("/Email/contact", (req, res) => {
       const name = req.body.name;
