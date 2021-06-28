@@ -9,6 +9,10 @@ import { isAuth } from './isAuth';
 const MJ_APIKEY_PUBLIC = process.env.MJ_APIKEY_PUBLIC;
 const MJ_APIKEY_PRIVATE = process.env.MJ_APIKEY_PRIVATE;
 const MongoClient = require('mongodb').MongoClient
+const fetch = require("node-fetch");
+var FormData = require('form-data');
+var cors = require('cors')
+const bodyParser = require('body-parser')
 
 const main = async () => {
     MongoClient.connect('mongodb+srv://vscodetodo_user:D9qKLE2wVBH2R68b@vscodetodo.nsbh7.mongodb.net/vscodetodo?retryWrites=true&w=majority', {
@@ -159,6 +163,10 @@ const main = async () => {
     passport.serializeUser(function(user: any, done) {
         done(null, user.accessToken);
     });
+    const app = express();
+    app.use(cors())
+    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(bodyParser.json())
     app.use(passport.initialize());
     app.use(express.json());
 
