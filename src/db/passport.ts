@@ -8,7 +8,7 @@ export const createPassport = async () => {
 	passport.use(new GitHubStrategy({
 		clientID: process.env.GITHUB_CLIENT_ID,
 		clientSecret: process.env.GITHUB_CLIENT_SECRET,
-		callbackURL: `${process.env.API_URL}/auth/github/callback`
+		callbackURL: `${process.env.REDIRECT_URL}/auth/github/callback`
 	  },
 		async (_, __, profile, cb) => {
 		  let user = await mongoose.collection('user').findOne({
