@@ -9,10 +9,10 @@ interface User {
 
 // 2. Create a Schema corresponding to the document interface.
 const userSchema = new Schema<User>({
-  id: { type: Number, required: true },
+  id: { type: Number, required: false },
   name: { type: String, required: true },
   githubId: { type: String, required: true },
 });
-const userModel = model<User>('user', userSchema);
+const userModel = model<User>('user', userSchema, 'user');
 
 module.exports = userModel;

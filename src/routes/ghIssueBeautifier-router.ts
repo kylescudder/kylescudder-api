@@ -12,7 +12,5 @@ router.use(function (_req, res, next) {
 router.post('/authenticate', ghIssueBeautifierCtrl.authenticate)
 router.post('/issues', ghIssueBeautifierCtrl.issues)
 router.post('/getuserdetails', ghIssueBeautifierCtrl.getUserDetails)
-router.get('/auth/github/callback', ghIssueBeautifierCtrl.authCallback)
-router.get('/auth/github', ghIssueBeautifierCtrl.auth)
 
 module.exports = router

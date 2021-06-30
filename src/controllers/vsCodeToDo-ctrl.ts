@@ -20,18 +20,17 @@ const me = async (req: any, res: any) => {
   let userId: Number = 0
   try {
     userId = await getUserId(req)
+    if (!userId) {
+      res.send({ user: null })
+      return
+    }
+    const users = await USER.findOne({
+      id: userId,
+    })
+    res.send({ users })
   } catch (err) {
     res.send({ user: null })
-    return
   }
-  if (!userId) {
-    res.send({ user: null })
-    return
-  }
-  const users = await USER.findOne({
-    id: userId,
-  })
-  res.send({ users })
 }
 const categories = async (_req: any, res: any) => {
   const payload = await CATEGORIE.find({})

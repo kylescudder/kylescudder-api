@@ -2,8 +2,8 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { Strategy as GitHubStrategy } from 'passport-github'
 
+const USER = require('../models/user-model')
 require('dotenv').config()
-const mongoose = require('mongoose')
 
 const createPassport = async () => {
   passport.use(new GitHubStrategy({
@@ -12,23 +12,32 @@ const createPassport = async () => {
     callbackURL: `${process.env.REDIRECT_URL}/auth/github/callback`,
   },
   async (_, __, profile, cb) => {
-    let user = await mongoose.collection('user').findOne({
+    const maxID = await USER.findOne()
+      .sort({ id: 1 }).limit(1)
+    let user = await USER.find({
       githubId: profile.id,
     });
-    if (user) {
+    if (user.length > 0) {
       user.name = profile.displayName
     } else {
-      await mongoose.collection('user').insertOne({
+      let newId = 0
+      if (maxID === null) {
+        newId = 1
+      } else {
+        newId = maxID.id + 1
+      }
+      await USER.create({
         name: profile.displayName,
         githubId: profile.id,
+        id: newId,
       });
-      user = await mongoose.collection('user').findOne({
+      user = await USER.find({
         githubId: profile.id,
       });
     }
     cb(null, {
       accessToken: jwt.sign(
-        { userId: user.id },
+        { userId: user[0].id },
         process.env.ACCESS_TOKEN_SECRET, {
           expiresIn: '1y',
         },
