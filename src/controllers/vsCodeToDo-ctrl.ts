@@ -1,113 +1,123 @@
+import jwt from 'jsonwebtoken'
+
 require('dotenv').config()
-import jwt from "jsonwebtoken";
-const mongoose = require('mongoose')
+
+const TODO = require('../models/todo-model')
+const USER = require('../models/user-model')
+const CATEGORIE = require('../models/categories-model')
+
+const getUserId = async (req: any) => {
+  const authHeader = req.headers.authorization
+  if (!authHeader) {
+    return 0
+  }
+  const token = await authHeader.split(' ')[1].toString()
+  const payloadJWT: any = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+  return payloadJWT.userId
+}
 
 const me = async (req: any, res: any) => {
-	const authHeader = req.headers.authorization;
-          if (!authHeader) {
-              res.send({ user: null})
-              return;
-          }
-          const token = authHeader.split(" ")[1];
-          if (!token) {
-              res.send({ user: null})
-              return;
-          }
-          let userId = "";
-          try {
-              const payload: any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-              userId = payload.userId;
-          } catch (err) {
-              res.send({ user: null})
-              return;
-          }
-          if (!userId) {
-              res.send({ user: null})
-              return;
-          }
-          const user = await mongoose.collection('user').findOne({
-            id: userId
-          });
-          res.send({ user })
+  let userId: Number = 0
+  try {
+    userId = await getUserId(req)
+  } catch (err) {
+    res.send({ user: null })
+    return
+  }
+  if (!userId) {
+    res.send({ user: null })
+    return
+  }
+  const users = await USER.findOne({
+    id: userId,
+  })
+  res.send({ users })
 }
-const categories = async (req: any, res: any) => {
-	const categorie = await mongoose.collection('categories').find()
-	.sort({
-	  text: 1
-	})
-	.toArray();
-	res.send({ categorie });
+const categories = async (_req: any, res: any) => {
+  const payload = await CATEGORIE.find({})
+    .sort({
+      text: 1,
+    })
+  res.send({ payload })
 }
 const todoList = async (req: any, res: any) => {
-	const todos = await getToDos(mongoose, req);
-	res.send({ todos })
+  let userId: Number = 0
+  userId = await getUserId(req)
+  const filterDate: Date = new Date()
+  filterDate.setHours(filterDate.getHours() - 1)
+  try {
+    const payload = await TODO.find({
+      creatorId: userId,
+    })
+      .or([
+        { completedDate: { $exists: false } },
+        { completedDate: { $gt: filterDate } },
+      ])
+      .sort({
+        completed: 1,
+        categorieText: 1,
+        id: 1,
+      })
+    if (!payload.length) {
+      return res
+        .status(404)
+        .json({ success: false, error: 'To Dos not found' })
+    }
+    return res.status(200).json({ success: true, data: payload })
+  } catch (err: any) {
+    return res.status(400).json({ success: false, data: err })
+  }
 }
 const todoAdd = async (req: any, res: any) => {
-	const maxID = await mongoose.collection('to_do').find()
-	.sort({
-	  id: -1
-	})
-	.limit(1)
-	.toArray();
-	if (req.body.text.length < 500) {
-		await mongoose.collection('to_do').insertOne({
-			text: req.body.text, 
-			creatorId: req.userId,
-			categorieText: req.body.categorieText,
-			id: (maxID[0].id + 1)
-		});
-	}
-	res.send({  });
+  let userId: Number = 0
+  userId = await getUserId(req)
+  const payload = await TODO.find({})
+    .sort({
+      id: -1,
+    })
+    .limit(1)
+
+  if (req.body.text.length < 500) {
+    await TODO.create({
+      text: req.body.text,
+      creatorId: userId,
+      categorieText: req.body.categorieText,
+      id: (payload[0].id + 1),
+    })
+  }
+  res.send({ })
 }
 const todoUpdate = async (req: any, res: any) => {
-	const todo = await mongoose.collection('to_do').findOne({
-		id: req.body.id
-	  });
-	  if (!todo) {
-		  res.send({ todo: null });
-		  return
-	  }
-	  if (todo.creatorId !== req.userId) {
-		  throw new Error("You are not authorised to do this");
-	  }
-	  todo.completed = !todo.completed;
-	  todo.completedDate = new Date();
-	  mongoose.collection('to_do').updateOne(
-		{ id : req.body.id },
-		{
-		  $set: { 
-			completed: todo.completed,
-			completedDate: todo.completedDate
-		  }
-		}
-	  );
-	  res.send('success');
-}
-async function getToDos(db: any, req: any) {
-	const FilterDate: Date = new Date();
-	FilterDate.setDate(FilterDate.getDate() - 8);
-	const todos = await db.collection('to_do').find(
-	  {
-		creatorId: req.userId,
-		$or: [
-		  { completedDate: { $exists: false } },
-		  { completedDate: { $gt: FilterDate } }
-		]
-	  }
-	)
-	  .sort({
-		completed: 1,
-		categorieText: 1,
-		id: 1
-	  })
-	  .toArray();
-	return todos;
+  let userId: Number = 0
+  userId = await getUserId(req)
+  const payload = await TODO.findOne({
+    id: req.body.id,
+  })
+  if (!payload) {
+    res.send({ todo: null })
+    return
   }
+  if (payload.creatorId !== userId) {
+    throw new Error('You are not authorised to do this')
+  }
+  payload.completed = !payload.completed
+  payload.completedDate = new Date()
+  await TODO.updateOne(
+    { id: req.body.id },
+    {
+      $set: {
+        completed: payload.completed,
+        completedDate: payload.completedDate,
+      },
+    },
+  )
+  res.send('success')
+}
 
 module.exports = {
   me,
   categories,
   todoList,
   todoAdd,
-  todoUpdate
-};
+  todoUpdate,
+}
