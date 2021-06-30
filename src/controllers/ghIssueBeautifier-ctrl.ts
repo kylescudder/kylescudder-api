@@ -57,13 +57,13 @@ const getUserDetails = async (req: any, res: any) => {
 	const userResponseJSON = await userResponse.json()
 	res.status(200).json(userResponseJSON)
 } 
-const authCallback = async (req: any, res: any) => {
+const authCallback = async (_req: any, _res: any) => {
 	passport.authenticate('github', { session: false }),
 	(req: any, res: any) => {
 		res.redirect(`${process.env.EXTENSION_URL}/auth/${req.user.accessToken}`)
 	}
 }
-const auth = async (req: any, res: any) => {
+const auth = async (_req: any, _res: any) => {
 	passport.authenticate('github', { session: false })
 }
 module.exports = {
