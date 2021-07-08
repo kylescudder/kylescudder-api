@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import express from 'express'
 import passport from 'passport'
-import connectDB from './db/index'
+import { bigDayPlannerConnectDB, toDoConnectDB } from './db/index'
 import createPassport from './db/passport'
 
 const bodyParser = require('body-parser');
@@ -11,6 +11,7 @@ require('dotenv-safe').config();
 const mailRouter = require('./routes/mail-router');
 const ghIssueBeautifierRouter = require('./routes/ghIssueBeautifier-router');
 const vsCodeToDoRouter = require('./routes/vsCodeToDo-router');
+const bigDayPlannerRouter = require('./routes/bigDayPlanner-router')
 
 const main = async () => {
   const app = express();
@@ -20,13 +21,17 @@ const main = async () => {
   app.use(bodyParser.json());
   app.use(passport.initialize());
   app.use(express.json());
-  const db = await connectDB()
-  db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  const toDoDB = await toDoConnectDB()
+  const bigDayPlannerDB = await bigDayPlannerConnectDB()
+  toDoDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  bigDayPlannerDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
   await createPassport()
 
   app.use('/GHIssueBeautifier', ghIssueBeautifierRouter);
   app.use('/Email', mailRouter);
   app.use('/VSCodeToDo', vsCodeToDoRouter);
+  app.use('/BigDayPlanner', bigDayPlannerRouter)
+
   app.get('/VSCodeToDo/auth/github',
     passport.authenticate('github', { session: false }));
 

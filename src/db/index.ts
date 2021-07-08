@@ -1,13 +1,25 @@
 const mongoose = require('mongoose')
+require('dotenv-safe').config();
 
-const server = 'vscodetodo_user:D9qKLE2wVBH2R68b@vscodetodo.nsbh7.mongodb.net'
-const database = 'vscodetodo'
+const server = process.env.MONGODB_SERVER
+const toDoDatabase = 'vscodetodo'
+const bigDayPlannerDatabase = 'wedding-site'
 
-const connectDB = async () => {
-  await mongoose.connect(`mongodb+srv://${server}/${database}`, {
+export const toDoConnectDB = async () => {
+  await mongoose.connect(`mongodb+srv://${server}/${toDoDatabase}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
   })
   return mongoose.connection;
 }
-export default connectDB
+export const bigDayPlannerConnectDB = async () => {
+  await mongoose.connect(`mongodb+srv://${server}/${bigDayPlannerDatabase}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  })
+  return mongoose.connection;
+}
