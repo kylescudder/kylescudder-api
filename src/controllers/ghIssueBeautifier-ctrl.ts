@@ -1,9 +1,10 @@
 import FormData from 'form-data'
 import fetch from 'node-fetch'
+import { Request, Response } from 'express'
 
 require('dotenv').config()
 
-const issues = async (req: any, res: any) => {
+const issues = async (req: Request, res: Response) => {
   const { repo } = req.body;
   // Request to exchange code for an access token
   try {
@@ -19,7 +20,7 @@ const issues = async (req: any, res: any) => {
     return res.status(400).json(err)
   }
 }
-const authenticate = async (req: any, res: any) => {
+const authenticate = async (req: Request, res: Response) => {
   const { code } = req.body;
   const data = new FormData();
   data.append('client_id', process.env.CLIENT_ID!);
@@ -41,7 +42,7 @@ const authenticate = async (req: any, res: any) => {
     return res.status(400).json(err);
   }
 }
-const getUserDetails = async (req: any, res: any) => {
+const getUserDetails = async (req: Request, res: Response) => {
   const userResponse = await fetch('https://api.github.com/user', {
     headers: {
       authorization: `token ${req.body.at_id}`,

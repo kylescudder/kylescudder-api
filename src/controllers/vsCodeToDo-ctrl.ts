@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import { Request, Response } from 'express'
 
 require('dotenv').config()
 
@@ -6,7 +7,7 @@ const TODO = require('../models/todo-model')
 const USER = require('../models/user-model')
 const CATEGORIE = require('../models/categories-model')
 
-const getUserId = async (req: any) => {
+const getUserId = async (req: Request) => {
   const authHeader = req.headers.authorization
   if (!authHeader) {
     return 0
@@ -16,7 +17,7 @@ const getUserId = async (req: any) => {
   return payloadJWT.userId
 }
 
-const me = async (req: any, res: any) => {
+const me = async (req: Request, res: Response) => {
   let userId: Number = 0
   try {
     userId = await getUserId(req)
@@ -32,14 +33,14 @@ const me = async (req: any, res: any) => {
     res.send({ user: null })
   }
 }
-const categories = async (_req: any, res: any) => {
+const categories = async (_req: Request, res: Response) => {
   const payload = await CATEGORIE.find({})
     .sort({
       text: 1,
     })
   res.send({ payload })
 }
-const todoList = async (req: any, res: any) => {
+const todoList = async (req: Request, res: Response) => {
   let userId: Number = 0
   userId = await getUserId(req)
   const filterDate: Date = new Date()
@@ -67,7 +68,7 @@ const todoList = async (req: any, res: any) => {
     return res.status(400).json({ success: false, data: err })
   }
 }
-const todoAdd = async (req: any, res: any) => {
+const todoAdd = async (req: Request, res: Response) => {
   let userId: Number = 0
   userId = await getUserId(req)
   const payload = await TODO.find({})
@@ -86,7 +87,7 @@ const todoAdd = async (req: any, res: any) => {
   }
   res.send({ })
 }
-const todoUpdate = async (req: any, res: any) => {
+const todoUpdate = async (req: Request, res: Response) => {
   let userId: Number = 0
   userId = await getUserId(req)
   const payload = await TODO.findOne({
