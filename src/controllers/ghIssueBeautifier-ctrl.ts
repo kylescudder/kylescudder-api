@@ -4,11 +4,36 @@ import { Request, Response } from 'express'
 
 require('dotenv').config()
 
+<<<<<<< Updated upstream
 const issues = async (req: Request, res: Response) => {
   const { repo } = req.body;
+=======
+const issues = async (req: any, res: any) => {
+  let milestoneNumber = 0
+  const { repo, milestone } = req.body;
+>>>>>>> Stashed changes
   // Request to exchange code for an access token
   try {
-    const response = await fetch(`https://api.github.com/repos/PalomaSystems/${repo}/issues`, {
+    const milestoneResponse = await fetch(`https://api.github.com/repos/PalomaSystems/${repo}/milestones`, {
+      headers: {
+        authorization: `token ${process.env.PERSONAL_ACCESS_TOKEN}`,
+      },
+      method: 'GET',
+    })
+    const milestoneResponseJSON = await milestoneResponse.json()
+    for (let i = 0; i < milestoneResponseJSON.length; i++) {
+      const element = milestoneResponseJSON[i];
+      if (element.title === milestone) {
+        milestoneNumber = element.number
+      }
+    }
+    let url = ''
+    if (milestone !== '') {
+      url = `https://api.github.com/repos/PalomaSystems/${repo}/issues?milestone=${milestoneNumber}&per_page=100`
+    } else {
+      url = `https://api.github.com/repos/PalomaSystems/${repo}/issues?per_page=100`
+    }
+    const response = await fetch(url, {
       headers: {
         authorization: `token ${process.env.PERSONAL_ACCESS_TOKEN}`,
       },
