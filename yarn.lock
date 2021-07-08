@@ -177,10 +177,15 @@
     "@types/node" "*"
     "form-data" "^3.0.0"
 
-"@types/node@*", "@types/node@^14.14.28":
-  "integrity" "sha512-lg55ArB+ZiHHbBBttLpzD07akz0QPrZgUODNakeC09i62dnrywr9mFErHuaPlB6I7z+sEbK+IYmplahvplCj2g=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-14.14.28.tgz"
-  "version" "14.14.28"
+"@types/node-mailjet@^3.3.6":
+  "integrity" "sha512-DqsacUJDdpjIxvPfW09qWhwb6JPplZKFhFF7vaQPsFq0BmQqmGdOmMFl/zTniXSRuQhV/ZgnEBpGJVx9sRZVZg=="
+  "resolved" "https://registry.npmjs.org/@types/node-mailjet/-/node-mailjet-3.3.6.tgz"
+  "version" "3.3.6"
+
+"@types/node@*", "@types/node@^14.17.4":
+  "integrity" "sha512-8kQ3+wKGRNN0ghtEn7EGps/B8CzuBz1nXZEIGGLP2GnwbqYn4dbTs7k+VKLTq1HvZLRCIDtN3Snx1Ege8B7L5A=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-14.17.4.tgz"
+  "version" "14.17.4"
 
 "@types/oauth@*":
   "integrity" "sha512-a1iY62/a3yhZ7qH7cNUsxoI3U/0Fe9+RnuFrpTKr+0WVOzbKlSLojShCKe20aOD1Sppv+i8Zlq0pLDuTJnwS4A=="
@@ -483,6 +488,11 @@
   "integrity" "sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A=="
   "resolved" "https://registry.npmjs.org/base64url/-/base64url-3.0.1.tgz"
   "version" "3.0.1"
+
+"bcryptjs@^2.4.3":
+  "integrity" "sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms="
+  "resolved" "https://registry.npmjs.org/bcryptjs/-/bcryptjs-2.4.3.tgz"
+  "version" "2.4.3"
 
 "bignumber.js@^9.0.0":
   "integrity" "sha512-IdZR9mh6ahOBv/hYGiXyVuyCetmGJhtYkqLBpTStdhEGjegpPlUawydyaF3pbIOFynJTpllEs+NP+CS9jKFLjA=="
@@ -2379,9 +2389,9 @@
   "version" "3.0.0"
 
 "normalize-url@^4.1.0":
-  "integrity" "sha512-2s47yzUxdexf1OhyRi4Em83iQk0aPvwTddtFz4hnSSw9dCEsLEGf6SwIO8ss/19S9iBb5sJaOuTvTGDeZI00BQ=="
-  "resolved" "https://registry.npmjs.org/normalize-url/-/normalize-url-4.5.0.tgz"
-  "version" "4.5.0"
+  "integrity" "sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA=="
+  "resolved" "https://registry.npmjs.org/normalize-url/-/normalize-url-4.5.1.tgz"
+  "version" "4.5.1"
 
 "oauth@0.9.x":
   "integrity" "sha1-vR/vr2hslrdUda7VGWQS/2DPucE="
@@ -3542,10 +3552,10 @@
     "yargonaut" "^1.1.2"
     "yargs" "^16.0.3"
 
-"typescript@^4.2.4", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
-  "integrity" "sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg=="
-  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.2.4.tgz"
-  "version" "4.2.4"
+"typescript@^4.3.5", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
+  "integrity" "sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA=="
+  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.3.5.tgz"
+  "version" "4.3.5"
 
 "uid2@0.0.x":
   "integrity" "sha1-SDEm4Rd03y9xuLY53NeZw3YWK4I="
