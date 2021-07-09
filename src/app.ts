@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import express from 'express'
 import passport from 'passport'
-import { bigDayPlannerConnectDB, toDoConnectDB } from './db/index'
+// import { bigDayPlannerConn, toDoConn } from './db/index'
 import createPassport from './db/passport'
 
 const bodyParser = require('body-parser');
@@ -21,10 +21,10 @@ const main = async () => {
   app.use(bodyParser.json());
   app.use(passport.initialize());
   app.use(express.json());
-  const toDoDB = await toDoConnectDB()
-  const bigDayPlannerDB = await bigDayPlannerConnectDB()
-  toDoDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
-  bigDayPlannerDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  // const toDoDB = toDoConn()
+  // const bigDayPlannerDB = await bigDayPlannerConn()
+  // toDoDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  // bigDayPlannerDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
   await createPassport()
 
   app.use('/GHIssueBeautifier', ghIssueBeautifierRouter);

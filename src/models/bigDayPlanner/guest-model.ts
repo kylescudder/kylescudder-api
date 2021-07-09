@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
+import { bigDayPlannerConn } from '../../db/index'
 
 // 1. Create an interface representing a document in MongoDB.
 interface Guest {
@@ -14,6 +15,6 @@ const guestSchema = new Schema<Guest>({
   guestGroupID: { type: Number, required: true },
 
 });
-const guestModel = model<Guest>('guest', guestSchema);
+const guestModel = bigDayPlannerConn.model('guest', guestSchema);
 
 module.exports = guestModel;

@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
+import { toDoConn } from '../db/index'
 
 // 1. Create an interface representing a document in MongoDB.
 interface ToDo {
@@ -17,6 +18,6 @@ const todoSchema = new Schema<ToDo>({
   creatorId: { type: Number, required: true },
   categorieText: { type: String, required: true },
 });
-const todoModel = model<ToDo>('todos', todoSchema);
+const todoModel = toDoConn.model('todos', todoSchema);
 
 module.exports = todoModel;
