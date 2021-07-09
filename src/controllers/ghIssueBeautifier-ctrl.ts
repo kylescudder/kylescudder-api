@@ -22,14 +22,12 @@ const issues = async (req: Request, res: Response) => {
         milestoneNumber = element.number
       }
     }
-    console.log(`token ${at_id}`)
     let url = ''
     if (milestone !== '') {
       url = `https://api.github.com/repos/PalomaSystems/${repo}/issues?milestone=${milestoneNumber}&per_page=100`
     } else {
       url = `https://api.github.com/repos/PalomaSystems/${repo}/issues?per_page=100`
     }
-    console.log(url)
     const response = await fetch(url, {
       headers: {
         authorization: `token ${at_id}`,
@@ -37,7 +35,6 @@ const issues = async (req: Request, res: Response) => {
       method: 'GET',
     })
     const responseJSON = await response.json()
-    console.log(responseJSON)
     return res.status(200).json(responseJSON);
   } catch (err) {
     return res.status(400).json(err)
