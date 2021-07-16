@@ -15,6 +15,6 @@ const bigDayPlannerUserSchema = new Schema<BigDayPlannerUser>({
   displayName: { type: String },
 
 });
-const bigDayPlannerUserModel = bigDayPlannerConn.model('bigdayplanneruser', bigDayPlannerUserSchema, 'user');
+const bigDayPlannerUserModel = bigDayPlannerConn.model('user', bigDayPlannerUserSchema);
 
 module.exports = bigDayPlannerUserModel;
