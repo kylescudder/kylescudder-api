@@ -6,6 +6,10 @@ const bcrypt = require('bcryptjs')
 const BIGDAYPLANNERUSER = require('../models/bigDayPlanner/user-model');
 const GUEST = require('../models/bigDayPlanner/guest-model')
 
+type UserData = {
+  id: string
+}
+
 const registerUser = async (req: Request, res: Response) => {
   try {
     const {
@@ -56,7 +60,6 @@ const loginUser = async (req: Request, res: Response) => {
 
     // validate
     if (!email || !password) return res.status(400).json({ msg: 'Not all fields have been entered.' });
-
     const user = await BIGDAYPLANNERUSER.findOne({ email });
     if (!user) {
       return res
@@ -92,12 +95,11 @@ const tokenIsValidUser = async (req: Request, res: Response) => {
     const token = req.header('x-auth-token');
     if (!token) return res.json(false);
 
-    const verified = verify(token, process.env.JWT_SECRET as string);
+    const verified:UserData = verify(token, process.env.JWT_SECRET as string) as UserData;
     if (!verified) return res.json(false);
-    console.log(verified)
-    const user = await BIGDAYPLANNERUSER.findById(verified);
+    const user = await BIGDAYPLANNERUSER.findById(verified.id);
     if (!user) return res.json(false);
-
+    
     return res.json(true);
   } catch (err) {
     return res.status(500).json({ error: err.message });
