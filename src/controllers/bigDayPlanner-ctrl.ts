@@ -160,21 +160,20 @@ const updateGuest = async (req: Request, res: Response) => {
         error: 'You must provide a body to update',
       })
     }
+    const guest = await GUEST.findOneAndUpdate(
+      {
+        _id: req.params.id
+      }, {
+        forename: body.forename,
+        surname: body.surname,
+        guestGroupID: body.guestGroupID
 
-    const guest = await GUEST.findOne({ _id: req.params.id })
-    if (!guest.length) {
+    })
+    if (!guest) {
       return res.status(404).json({
         message: 'Guest not found!',
       })
     }
-    guest.forename = body.forename
-    guest.surname = body.surname
-    guest.guestGroupID = body.guestGroupID
-    await guest.updateOne({ _id: guest._id }, {
-      forename: guest.forename,
-      surname: guest.surname,
-      guestGroupID: guest.guestGroupID
-    })
     return res.status(200).json({
       success: true,
       id: guest._id,
@@ -188,6 +187,7 @@ const updateGuest = async (req: Request, res: Response) => {
 const deleteGuest = async (req: Request, res: Response) => {
   try {
     const guest = await GUEST.findOneAndDelete({ _id: req.params.id })
+    console.log(guest)
     if (!guest) {
       return res.status(404).json({ success: false, error: 'Guest not found' })
     }
