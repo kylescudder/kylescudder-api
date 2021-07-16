@@ -133,14 +133,17 @@ const createGuest = async (req: Request, res: Response) => {
     if (!guest) {
       return res.status(400).json({ success: false, error: 'Could not create new guest' })
     }
-    await guest.create({
+    await GUEST.create({
       forename: guest.forename,
       surname: guest.surname,
       guestGroupID: guest.guestGroupID
     })
+    const newGuest = await GUEST.findOne()
+      .sort({ _id: -1 }).limit(1)
+    
     return res.status(201).json({
       success: true,
-      id: guest._id,
+      id: newGuest._id,
       message: 'Guest created!',
     })
   } catch (err: any) {
@@ -151,7 +154,6 @@ const createGuest = async (req: Request, res: Response) => {
 const updateGuest = async (req: Request, res: Response) => {
   try {
     const { body } = req
-
     if (!body) {
       return res.status(400).json({
         success: false,
