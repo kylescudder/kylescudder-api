@@ -15,7 +15,6 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
         .status(401)
         .json({ msg: 'Token verification failed, authorization denied' })
     }
-    console.log(verified)
     req.user = verified
     return next()
   } catch (err) {
