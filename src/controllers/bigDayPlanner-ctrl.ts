@@ -106,13 +106,18 @@ const tokenIsValidUser = async (req: Request, res: Response) => {
   }
 };
 const getUserInfo = async (req: Request, res: Response) => {
-  const user = await BIGDAYPLANNERUSER.findById(req.user);
+  const userId = await validateUser(req.header('x-auth-token') || '')
+  const user = await BIGDAYPLANNERUSER.findById(userId);
   res.json({
     displayName: user.displayName,
     id: user._id,
   });
 };
+const validateUser = async (token:string) => {
+  const verified:UserData = verify(token, process.env.JWT_SECRET as string) as UserData;
+  return verified.id
 
+}
 const createGuest = async (req: Request, res: Response) => {
   try {
     const { body } = req
@@ -122,9 +127,9 @@ const createGuest = async (req: Request, res: Response) => {
         error: 'You must provide a guest',
       })
     }
-
+    
     const guest = new GUEST(body)
-
+    
     if (!guest) {
       return res.status(400).json({ success: false, error: 'Could not create new guest' })
     }
