@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 
 const BIGDAYPLANNERUSER = require('../models/bigDayPlanner/user-model');
 const GUEST = require('../models/bigDayPlanner/guest-model')
+const MEAL = require('../models/bigDayPlanner/meal-model')
 
 type UserData = {
   id: string
@@ -136,7 +137,10 @@ const createGuest = async (req: Request, res: Response) => {
     await GUEST.create({
       forename: guest.forename,
       surname: guest.surname,
-      guestGroupID: guest.guestGroupID
+      guestGroupID: guest.guestGroupID,
+      starterID: '',
+      mainCourseID: '',
+      attending: false
     })
     const newGuest = await GUEST.findOne()
       .sort({ _id: -1 }).limit(1)
@@ -201,6 +205,16 @@ const deleteGuest = async (req: Request, res: Response) => {
 const getGuestById = async (req: Request, res: Response) => {
   try {
     const guest = await GUEST.findOne({ _id: req.params.id })
+    const meal = await MEAL.find({})
+    for (let i = 0; i < meal.length; i++) {
+      const element = meal[i]
+      if (guest.starterID === element.id) {
+        guest.starterText = element.mealName
+      }
+      if (guest.mainCourseID === element.id) {
+        guest.mainCourseText = element.mealName
+      }
+    }
     if (!guest) {
       return res
         .status(404)
