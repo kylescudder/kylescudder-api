@@ -10,7 +10,11 @@ interface Guest {
   mainCourseID: string;
   starterText: string;
   mainCourseText: string;
+  dietaryNote: string;
   attending: boolean;
+  songArtist: string;
+  songName: string;
+  receptionOnly: boolean;
 }
 
 // 2. Create a Schema corresponding to the document interface.
@@ -22,7 +26,11 @@ const guestSchema = new Schema<Guest>({
   mainCourseID: { type: String, required: false },
   starterText: { type: String, required: false },
   mainCourseText: { type: String, required: false },
+  dietaryNote: { type: String, required: false },
   attending: { type: Boolean, required: false },
+  songArtist: { type: String, required: false },
+  songName: { type: String, required: false },
+  receptionOnly: { type: Boolean, required: true }
 });
 const guestModel = bigDayPlannerConn.model('guest', guestSchema);
 

@@ -140,7 +140,11 @@ const createGuest = async (req: Request, res: Response) => {
       guestGroupID: guest.guestGroupID,
       starterID: '',
       mainCourseID: '',
-      attending: false
+      dietaryNote: '',
+      songArtist: '',
+      songName: '',
+      attending: false,
+      receptionOnly: guest.receptionOnly
     })
     const newGuest = await GUEST.findOne()
       .sort({ _id: -1 }).limit(1)
@@ -191,7 +195,7 @@ const updateGuest = async (req: Request, res: Response) => {
 const deleteGuest = async (req: Request, res: Response) => {
   try {
     const guest = await GUEST.findOneAndDelete({ _id: req.params.id })
-    console.log(guest)
+
     if (!guest) {
       return res.status(404).json({ success: false, error: 'Guest not found' })
     }
@@ -229,9 +233,9 @@ const getGuestById = async (req: Request, res: Response) => {
 const getGuests = async (_req: Request, res: Response) => {
   try {
     const guests = await GUEST.find({})
-    if (!guests.length) {
-      return res.status(404).json({ success: false, error: 'Guest not found' })
-    }
+    //if (!guests.length) {
+    //  return res.status(404).json({ success: false, error: 'Guest not found' })
+    //}
     return res.status(200).json({ success: true, data: guests })
   } catch (err: any) {
     return res.status(400).json({ success: false, error: err })
