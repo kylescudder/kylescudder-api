@@ -1,16 +1,17 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
+import { toDoConn } from '../db/index'
 
 // 1. Create an interface representing a document in MongoDB.
 interface Categorie {
   id: number;
-  text: string;
+	text: string;
 }
 
 // 2. Create a Schema corresponding to the document interface.
 const categorieSchema = new Schema<Categorie>({
   id: { type: Number, required: true },
-  text: { type: String, required: true },
+	text: { type: String, required: true }
 });
-const categorieModel = model<Categorie>('categories', categorieSchema);
+const categorieModel = toDoConn.model('categories', categorieSchema);
 
 module.exports = categorieModel;

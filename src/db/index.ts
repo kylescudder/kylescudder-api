@@ -11,7 +11,6 @@ export const toDoConn = mongoose.createConnection(`mongodb+srv://${server}/${toD
   useFindAndModify: false,
   useCreateIndex: true
 })
-
 export const bigDayPlannerConn = mongoose.createConnection(`mongodb+srv://${server}/${bigDayPlannerDatabase}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
