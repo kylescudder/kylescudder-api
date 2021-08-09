@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": "*"
+    "node": "14.17.3"
   },
   "activationEvents": [],
   "main": "app.js",
