@@ -8,6 +8,7 @@ interface ToDo {
   completed: boolean;
   creatorId: number;
   categorieText: string;
+  completedDate: Date;
 }
 
 // 2. Create a Schema corresponding to the document interface.
@@ -17,6 +18,7 @@ const todoSchema = new Schema<ToDo>({
   completed: { type: Boolean, required: false },
   creatorId: { type: Number, required: true },
   categorieText: { type: String, required: true },
+  completedDate: { type: Date, required: false }
 });
 const todoModel = toDoConn.model('todos', todoSchema);
 
