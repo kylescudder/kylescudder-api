@@ -44,7 +44,6 @@ const todoList = async (req: Request, res: Response) => {
   let userId: Number = 0
   userId = await getUserId(req)
   const filterDate: Date = new Date()
-  filterDate.setHours(filterDate.getHours() - 1)
   try {
     const payload = await TODO.find({
       creatorId: userId,
