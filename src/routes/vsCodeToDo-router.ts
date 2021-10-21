@@ -13,6 +13,7 @@ router.use((_req, res, next) => {
 
 router.get('/me', vsCodeToDoCtrl.me)
 router.get('/categories', vsCodeToDoCtrl.categories)
+router.post('/category', vsCodeToDoCtrl.categoryAdd)
 router.get('/todo', vsCodeToDoCtrl.todoList)
 router.post('/todo', vsCodeToDoCtrl.todoAdd)
 router.put('/todo', vsCodeToDoCtrl.todoUpdate)

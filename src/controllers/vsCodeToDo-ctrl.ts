@@ -40,6 +40,21 @@ const categories = async (_req: Request, res: Response) => {
     })
   res.send({ payload })
 }
+const categoryAdd = async (req: Request, res: Response) => {
+  const payload = await CATEGORIE.find({})
+    .sort({
+      id: -1,
+    })
+    .limit(1)
+
+  if (req.body.categorieText.length < 500) {
+    await CATEGORIE.create({
+      text: req.body.categorieText,
+      id: (payload[0].id + 1),
+    })
+  }
+  res.send({ })
+}
 const todoList = async (req: Request, res: Response) => {
   let userId: Number = 0
   userId = await getUserId(req)
@@ -117,6 +132,7 @@ const todoUpdate = async (req: Request, res: Response) => {
 module.exports = {
   me,
   categories,
+  categoryAdd,
   todoList,
   todoAdd,
   todoUpdate,
