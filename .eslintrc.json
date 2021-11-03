@@ -22,7 +22,7 @@
     "eqeqeq": "warn",
     "no-throw-literal": "warn",
     "semi": "off",
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": ["error", "unix"],
     "indent": ["error", 2],
     "import/extensions": "off",
     "no-underscore-dangle": ["error", 0]
