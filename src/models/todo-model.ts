@@ -7,7 +7,7 @@ interface ToDo {
   text: string;
   completed: boolean;
   creatorId: number;
-  categorieText: string;
+  categorieId: number;
   completedDate: Date;
 }
 
@@ -17,8 +17,8 @@ const todoSchema = new Schema<ToDo>({
   text: { type: String, required: true },
   completed: { type: Boolean, required: false },
   creatorId: { type: Number, required: true },
-  categorieText: { type: String, required: true },
-  completedDate: { type: Date, required: false }
+  categorieId: { type: Number, required: true },
+  completedDate: { type: Date, required: false },
 });
 const todoModel = toDoConn.model('todos', todoSchema);
 
