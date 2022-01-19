@@ -242,6 +242,32 @@ const getGuests = async (_req: Request, res: Response) => {
   }
 }
 
+const getGuestGroup = async (req: Request, res: Response) => {
+  try {
+    const guestGroupID = req.header("guestGroupID");
+    if (!guestGroupID) return res.json(false);
+
+    const guest = await GUEST.find({ guestGroupID: guestGroupID });
+    //const meal = await MEAL.find({});
+    //for (let i = 0; i < meal.length; i++) {
+    //  const element = meal[i];
+    //  if (guest.starterID === element.id) {
+    //    guest.starterText = element.mealName;
+    //  }
+    //  if (guest.mainCourseID === element.id) {
+    //    guest.mainCourseText = element.mealName;
+    //  }
+    //}
+    if (!guest) {
+      return res.status(404).json({ success: false, error: "Guest not found" });
+    }
+    return res.status(200).json({ success: true, data: guest });
+  } catch (err: any) {
+    return res.status(400).json({ success: false, error: err });
+  }
+};
+
+
 module.exports = {
   registerUser,
   loginUser,
@@ -253,4 +279,5 @@ module.exports = {
   deleteGuest,
   getGuests,
   getGuestById,
+  getGuestGroup,
 };

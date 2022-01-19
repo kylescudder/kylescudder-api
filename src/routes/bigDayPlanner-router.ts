@@ -24,5 +24,7 @@ router.delete('/guest/:id', auth, bigDayPlannerCtrl.deleteGuest)
 router.get('/guest/:id', auth, bigDayPlannerCtrl.getGuestById)
 router.get('/guest', auth, bigDayPlannerCtrl.getGuests)
 
+router.get("/getGuestGroup", bigDayPlannerCtrl.getGuestGroup);
+
 module.exports = router
 
