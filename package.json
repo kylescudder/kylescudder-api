@@ -9,8 +9,9 @@
   "main": "app.js",
   "scripts": {
     "watch": "tsc -w",
-    "dev": "nodemon dist/app.js",
-    "start": "node app.js"
+    "server": "nodemon dist/app.js",
+    "start": "node app.js",
+    "dev": "concurrently --kill-others \"npm run watch\" \"npm run server\""
   },
   "keywords": [],
   "author": "",
@@ -49,6 +50,7 @@
     "@types/passport-github": "^1.1.5",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
+    "concurrently": "^7.1.0",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
