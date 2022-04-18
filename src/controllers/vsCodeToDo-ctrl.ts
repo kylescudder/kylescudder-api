@@ -65,10 +65,10 @@ const categoryAdd = async (req: Request, res: Response) => {
   res.send({});
 };
 const todoList = async (req: Request, res: Response) => {
-  let userId: Number = 0;
-  userId = await getUserId(req);
-  const filterDate: Date = new Date();
-  filterDate.setHours(filterDate.getHours() - 1);
+  let userId: Number = 0
+  userId = await getUserId(req)
+  const filterDate: Date = new Date()
+  filterDate.setHours(filterDate.getHours() - 1)
   try {
     const payload = await TODO.find({
       creatorId: userId,
@@ -100,10 +100,10 @@ const todoAdd = async (req: Request, res: Response) => {
       id: -1,
     })
     .limit(1);
-
   if (req.body.text.length < 500) {
     await TODO.create({
       text: req.body.text,
+      targetDate: req.body.targetDate,
       creatorId: userId,
       categorieId: req.body.categorieId,
       id: payload[0].id + 1,
