@@ -9,6 +9,7 @@ const cors = require('cors');
 require('dotenv-safe').config();
 const mailRouter = require('./routes/mail-router');
 const ghIssueBeautifierRouter = require('./routes/ghIssueBeautifier-router');
+const thingsToWriteRouter = require('./routes/thingsToWrite-router');
 const vsCodeToDoRouter = require('./routes/vsCodeToDo-router');
 const bigDayPlannerRouter = require('./routes/bigDayPlanner-router')
 
@@ -23,6 +24,7 @@ const main = async () => {
   await createPassport()
 
   app.use('/GHIssueBeautifier', ghIssueBeautifierRouter);
+  app.use('/ThingsToWrite', thingsToWriteRouter);
   app.use('/Email', mailRouter);
   app.use('/VSCodeToDo', vsCodeToDoRouter);
   app.use('/BigDayPlanner', bigDayPlannerRouter)
