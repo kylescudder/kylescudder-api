@@ -59,7 +59,6 @@ const categories = async (req: Request, res: Response) => {
     category.toDoCount = 0
     for (let ii = 0; ii < toDoPayload.length; ii++) {
       const todo = toDoPayload[ii];
-      console.log(todo)
       if (todo.categorieId === category.id) {
         category.toDoCount++
       }
