@@ -6,6 +6,7 @@ interface Categorie {
   id: number;
   text: string;
   userId: number;
+  toDoCount: number;
 }
 
 // 2. Create a Schema corresponding to the document interface.
@@ -13,6 +14,7 @@ const categorieSchema = new Schema<Categorie>({
   id: { type: Number, required: true },
   text: { type: String, required: true },
   userId: { type: Number, required: true },
+  toDoCount: { type: Number, required: false },
 });
 const categorieModel = toDoConn.model("categories", categorieSchema);
 

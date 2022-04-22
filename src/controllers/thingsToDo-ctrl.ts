@@ -43,6 +43,28 @@ const categories = async (req: Request, res: Response) => {
   }).sort({
     text: 1,
   });
+  let toDoPayload
+  for (let i = 0; i < payload.length; i++) {
+    const category = payload[i];
+    const filterDate: Date = new Date()
+    filterDate.setHours(filterDate.getHours() - 1)
+    toDoPayload = await TODO.find({
+      categorieId: category.id,
+    })
+    .or([
+        { completed: false },
+        { completed: { $exists: false } },
+        { completedDate: { $gt: filterDate } },
+      ])
+    category.toDoCount = 0
+    for (let ii = 0; ii < toDoPayload.length; ii++) {
+      const todo = toDoPayload[ii];
+      console.log(todo)
+      if (todo.categorieId === category.id) {
+        category.toDoCount++
+      }
+    }
+  }
   res.send({ payload });
 };
 //const categoryAdd = async (req: Request, res: Response) => {
