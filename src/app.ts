@@ -11,6 +11,7 @@ const mailRouter = require('./routes/mail-router');
 const ghIssueBeautifierRouter = require('./routes/ghIssueBeautifier-router');
 const thingsToWriteRouter = require('./routes/thingsToWrite-router');
 const vsCodeToDoRouter = require('./routes/vsCodeToDo-router');
+const thingsToDoRouter = require('./routes/thingsToDo-router');
 const bigDayPlannerRouter = require('./routes/bigDayPlanner-router')
 
 const main = async () => {
@@ -27,13 +28,13 @@ const main = async () => {
   app.use('/ThingsToWrite', thingsToWriteRouter);
   app.use('/Email', mailRouter);
   app.use('/VSCodeToDo', vsCodeToDoRouter);
+  app.use('/ThingsToDo', thingsToDoRouter);
   app.use('/BigDayPlanner', bigDayPlannerRouter)
 
   app.get('/VSCodeToDo/auth/github',
     passport.authenticate('github', { session: false }));
 
-  app.get(
-    '/VSCodeToDo/auth/github/callback',
+  app.get('/VSCodeToDo/auth/github/callback',
     passport.authenticate('github', { session: false }),
     (req: any, res) => {
       res.redirect(`${process.env.EXTENSION_URL}/auth/${req.user.accessToken}`)
