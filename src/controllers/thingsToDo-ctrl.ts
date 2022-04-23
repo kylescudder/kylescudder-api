@@ -84,34 +84,35 @@ const categories = async (req: Request, res: Response) => {
 //  }
 //  res.send({});
 //};
-//const todoList = async (req: Request, res: Response) => {
-//  let userId: Number = 0
-//  userId = await getUserId(req)
-//  const filterDate: Date = new Date()
-//  filterDate.setHours(filterDate.getHours() - 1)
-//  try {
-//    const payload = await TODO.find({
-//      creatorId: userId,
-//    })
-//      .or([
-//        { completedDate: { $exists: false } },
-//        { completedDate: { $gt: filterDate } },
-//      ])
-//      .sort({
-//        completed: 1,
-//        categorieId: 1,
-//        id: 1,
-//      });
-//    if (!payload.length) {
-//      return res
-//        .status(404)
-//        .json({ success: false, error: "To Dos not found" });
-//    }
-//    return res.status(200).json({ success: true, data: payload });
-//  } catch (err: any) {
-//    return res.status(400).json({ success: false, data: err });
-//  }
-//};
+const todoList = async (req: Request, res: Response) => {
+  let userId: Number = 0
+  userId = await getUserId(req)
+  const filterDate: Date = new Date()
+  filterDate.setHours(filterDate.getHours() - 1)
+  try {
+    const payload = await TODO.find({
+      creatorId: userId,
+      categorieId: req.body.categorieId
+    })
+      .or([
+        { completedDate: { $exists: false } },
+        { completedDate: { $gt: filterDate } },
+      ])
+      .sort({
+        completed: 1,
+        categorieId: 1,
+        id: 1,
+      });
+    if (!payload.length) {
+      return res
+        .status(404)
+        .json({ success: false, error: "To Dos not found" });
+    }
+    return res.status(200).json({ success: true, data: payload });
+  } catch (err: any) {
+    return res.status(400).json({ success: false, data: err });
+  }
+};
 //const todoAdd = async (req: Request, res: Response) => {
 //  let userId: Number = 0;
 //  userId = await getUserId(req);
@@ -131,38 +132,38 @@ const categories = async (req: Request, res: Response) => {
 //  }
 //  res.send({});
 //};
-//const todoUpdate = async (req: Request, res: Response) => {
-//  let userId: Number = 0;
-//  userId = await getUserId(req);
-//  const payload = await TODO.findOne({
-//    id: req.body.id,
-//  });
-//  if (!payload) {
-//    res.send({ todo: null });
-//    return;
-//  }
-//  if (payload.creatorId !== userId) {
-//    throw new Error("You are not authorised to do this");
-//  }
-//  payload.completed = !payload.completed;
-//  payload.completedDate = new Date();
-//  await TODO.updateOne(
-//    { id: req.body.id },
-//    {
-//      $set: {
-//        completed: payload.completed,
-//        completedDate: payload.completedDate,
-//      },
-//    }
-//  );
-//  res.send("success");
-//};
+const todoUpdate = async (req: Request, res: Response) => {
+  let userId: Number = 0;
+  userId = await getUserId(req);
+  const payload = await TODO.findOne({
+    id: req.body.id,
+  });
+  if (!payload) {
+    res.send({ todo: null });
+    return;
+  }
+  if (payload.creatorId !== userId) {
+    throw new Error("You are not authorised to do this");
+  }
+  payload.completed = !payload.completed;
+  payload.completedDate = new Date();
+  await TODO.updateOne(
+    { id: req.body.id },
+    {
+      $set: {
+        completed: payload.completed,
+        completedDate: payload.completedDate,
+      },
+    }
+  );
+  res.send("success");
+};
 
 module.exports = {
   //me,
   categories,
   //categoryAdd,
-  //todoList,
+  todoList,
   //todoAdd,
-  //todoUpdate,
+  todoUpdate,
 };
