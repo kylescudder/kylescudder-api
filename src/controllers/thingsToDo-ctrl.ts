@@ -105,7 +105,7 @@ const todoList = async (req: Request, res: Response) => {
       });
     if (!payload.length) {
       return res
-        .status(404)
+        .status(204)
         .json({ success: false, error: "To Dos not found" });
     }
     return res.status(200).json({ success: true, data: payload });
