@@ -52,7 +52,6 @@ const categories = async (req: Request, res: Response) => {
       categorieId: category.id,
     })
     .or([
-        { completed: false },
         { completed: { $exists: false } },
         { completedDate: { $gt: filterDate } },
       ])
@@ -95,7 +94,7 @@ const todoList = async (req: Request, res: Response) => {
       categorieId: req.body.categorieId
     })
       .or([
-        { completedDate: { $exists: false } },
+        { completed: { $exists: false } },
         { completedDate: { $gt: filterDate } },
       ])
       .sort({
