@@ -1,11 +1,10 @@
-import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 
 require("dotenv").config();
 
 const TODO = require("../models/todo-model");
 const USER = require("../models/user-model");
-const CATEGORIE = require("../models/categories-model");
+const CATEGORY = require("../models/category-model");
 
 //const getUserId = async (req: Request) => {
 //  const authHeader = req.headers.authorization;
@@ -38,7 +37,7 @@ const getUserId = async (req: Request) => {
 const categories = async (req: Request, res: Response) => {
   let userId: Number = 0;
   userId = await getUserId(req);
-  const payload = await CATEGORIE.find({
+  const payload = await CATEGORY.find({
     userId: userId,
   }).sort({
     text: 1,
@@ -49,7 +48,7 @@ const categories = async (req: Request, res: Response) => {
     const filterDate: Date = new Date()
     filterDate.setHours(filterDate.getHours() - 1)
     toDoPayload = await TODO.find({
-      categorieId: category.id,
+      categoryId: category.id,
     })
     .or([
         { completed: { $exists: false } },
@@ -58,7 +57,7 @@ const categories = async (req: Request, res: Response) => {
     category.toDoCount = 0
     for (let ii = 0; ii < toDoPayload.length; ii++) {
       const todo = toDoPayload[ii];
-      if (todo.categorieId === category.id) {
+      if (todo.categoryId === category.id) {
         category.toDoCount++
       }
     }
@@ -68,15 +67,15 @@ const categories = async (req: Request, res: Response) => {
 //const categoryAdd = async (req: Request, res: Response) => {
 //  let userId: Number = 0;
 //  userId = await getUserId(req);
-//  const payload = await CATEGORIE.find({})
+//  const payload = await CATEGORY.find({})
 //    .sort({
 //      id: -1,
 //    })
 //    .limit(1);
 
-//  if (req.body.categorieText.length < 500) {
-//    await CATEGORIE.create({
-//      text: req.body.categorieText,
+//  if (req.body.categoryText.length < 500) {
+//    await CATEGORY.create({
+//      text: req.body.categoryText,
 //      id: payload[0].id + 1,
 //      userId: userId,
 //    });
@@ -91,7 +90,7 @@ const todoList = async (req: Request, res: Response) => {
   try {
     const payload = await TODO.find({
       creatorId: userId,
-      categorieId: req.body.categorieId
+      categoryId: req.body.categoryId
     })
       .or([
         { completed: { $exists: false } },
@@ -99,7 +98,7 @@ const todoList = async (req: Request, res: Response) => {
       ])
       .sort({
         completed: 1,
-        categorieId: 1,
+        categoryId: 1,
         id: 1,
       });
     if (!payload.length) {
@@ -125,7 +124,7 @@ const todoList = async (req: Request, res: Response) => {
 //      text: req.body.text,
 //      targetDate: req.body.targetDate,
 //      creatorId: userId,
-//      categorieId: req.body.categorieId,
+//      categoryId: req.body.categoryId,
 //      id: payload[0].id + 1,
 //    });
 //  }

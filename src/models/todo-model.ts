@@ -8,7 +8,7 @@ interface ToDo {
   targetDate: Date;
   completed: boolean;
   creatorId: number;
-  categorieId: number;
+  categoryId: number;
   completedDate: Date;
 }
 
@@ -19,7 +19,7 @@ const todoSchema = new Schema<ToDo>({
   targetDate: { type: Date, required: false },
   completed: { type: Boolean, required: false },
   creatorId: { type: Number, required: true },
-  categorieId: { type: Number, required: true },
+  categoryId: { type: Number, required: true },
   completedDate: { type: Date, required: false },
 });
 const todoModel = toDoConn.model('todos', todoSchema);
