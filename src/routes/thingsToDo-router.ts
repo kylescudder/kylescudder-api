@@ -15,7 +15,7 @@ router.use((_req, res, next) => {
 router.post('/categories', thingsToDoCtrl.categories)
 router.post('/category', thingsToDoCtrl.categoryAdd)
 router.post('/todo', thingsToDoCtrl.todoList)
-//router.post('/todo', thingsToDoCtrl.todoAdd)
+router.post('/addtodo', thingsToDoCtrl.todoAdd)
 router.put('/todo', thingsToDoCtrl.todoUpdate)
 
 module.exports = router

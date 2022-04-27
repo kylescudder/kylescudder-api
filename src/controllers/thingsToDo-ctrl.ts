@@ -114,25 +114,25 @@ const todoList = async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, data: err });
   }
 };
-//const todoAdd = async (req: Request, res: Response) => {
-//  let userId: Number = 0;
-//  userId = await getUserId(req);
-//  const payload = await TODO.find({})
-//    .sort({
-//      id: -1,
-//    })
-//    .limit(1);
-//  if (req.body.text.length < 500) {
-//    await TODO.create({
-//      text: req.body.text,
-//      targetDate: req.body.targetDate,
-//      creatorId: userId,
-//      categoryId: req.body.categoryId,
-//      id: payload[0].id + 1,
-//    });
-//  }
-//  res.send({});
-//};
+const todoAdd = async (req: Request, res: Response) => {
+  let userId: Number = 0;
+  userId = await getUserId(req);
+  const payload = await TODO.find({})
+    .sort({
+      id: -1,
+    })
+    .limit(1);
+  if (req.body.text.length < 500) {
+    await TODO.create({
+      text: req.body.text,
+      targetDate: req.body.targetDate,
+      creatorId: userId,
+      categoryId: req.body.categoryId,
+      id: payload[0].id + 1,
+    });
+  }
+  res.send({});
+};
 const todoUpdate = async (req: Request, res: Response) => {
   let userId: Number = 0;
   userId = await getUserId(req);
@@ -165,6 +165,6 @@ module.exports = {
   categories,
   categoryAdd,
   todoList,
-  //todoAdd,
+  todoAdd,
   todoUpdate,
 };
