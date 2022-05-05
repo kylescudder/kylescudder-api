@@ -22,7 +22,7 @@ const CATEGORY = require("../models/category-model");
 const getUserId = async (req: Request) => {
   let githubId: String = ''
   try {
-    githubId = req.body.githubId
+    githubId = req.header('githubId')
     if (!githubId) {
       return null;
     }
@@ -93,7 +93,7 @@ const todoList = async (req: Request, res: Response) => {
   try {
     const payload = await TODO.find({
       creatorId: userId,
-      categoryId: req.body.categoryId
+      categoryId: req.header('categoryId')
     })
       .or([
         { completed: { $exists: false } },
