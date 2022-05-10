@@ -10,7 +10,7 @@
   "scripts": {
     "watch": "tsc -w",
     "server": "nodemon dist/app.js",
-    "start": "node app.js",
+    "start": "node dist/app.js",
     "dev": "concurrently --kill-others \"npm run watch\" \"npm run server\""
   },
   "keywords": [],
