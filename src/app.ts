@@ -40,6 +40,12 @@ const main = async () => {
       res.redirect(`${process.env.EXTENSION_URL}/auth/${req.user.accessToken}`)
     },
   );
+  app.get('/ThingsToDo/auth/github/callback',
+    passport.authenticate('github', { session: false }),
+    (req: any, res) => {
+      res.redirect(`${process.env.THINGSTODO_REDIRECT_URL}/callback?code=/${req.user.accessToken}`)
+    },
+  );
 
   app.get('/', (_req, res) => {
     res.send('Hello');
