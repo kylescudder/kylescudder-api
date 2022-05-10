@@ -9,8 +9,8 @@ const createPassport = async () => {
   passport.use(
     new GitHubStrategy(
       {
-        clientID: process.env.THINGSTODO_CLIENT_ID,
-        clientSecret: process.env.THINGSTODO_CLIENT_SECRET,
+        clientID: process.env.THINGSTODO_CLIENT_ID!,
+        clientSecret: process.env.THINGSTODO_CLIENT_SECRET!,
         callbackURL: `${process.env.THINGSTODO_AUTH_REDIRECT_URL}/auth/github/callback`,
       },
       async (_, __, profile, cb) => {
