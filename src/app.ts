@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import express from 'express'
 import passport from 'passport'
 import createPassport from './db/passport'
+import createThingsToDoPassport from './db/thingsToDoPassport'
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -23,6 +24,7 @@ const main = async () => {
   app.use(passport.initialize());
   app.use(express.json());
   await createPassport()
+  await createThingsToDoPassport()
 
   app.use('/GHIssueBeautifier', ghIssueBeautifierRouter);
   app.use('/ThingsToWrite', thingsToWriteRouter);
@@ -40,10 +42,13 @@ const main = async () => {
       res.redirect(`${process.env.EXTENSION_URL}/auth/${req.user.accessToken}`)
     },
   );
+  app.get('/ThingsToDo/auth/github',
+    passport.authenticate('github', { session: false })
+  );
   app.get('/ThingsToDo/auth/github/callback',
     passport.authenticate('github', { session: false }),
     (req: any, res) => {
-      res.redirect(`${process.env.THINGSTODO_REDIRECT_URL}/callback?code=/${req.user.accessToken}`)
+      res.redirect(`${process.env.THINGSTODO_REDIRECT_URL}/callback?code=${req.user.accessToken}`)
     },
   );
 
