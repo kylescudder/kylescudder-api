@@ -39,9 +39,11 @@ const categories = async (req: Request, res: Response) => {
   userId = await getUserId(req);
   const payload = await CATEGORY.find({
     userId: userId,
-  }).sort({
-    text: 1,
-  });
+  })
+    .collation({locale: "en" }) 
+    .sort({
+      text: 1,
+    });
   let toDoPayload
   for (let i = 0; i < payload.length; i++) {
     const category = payload[i];
@@ -101,7 +103,7 @@ const todoList = async (req: Request, res: Response) => {
       ])
       .sort({
         completed: 1,
-        categoryId: 1,
+        targetDate: 1,
         id: 1,
       });
     if (!payload.length) {
