@@ -20,9 +20,9 @@ const CATEGORY = require("../models/category-model");
 //};
 
 const getUserId = async (req: Request) => {
-  let githubId: String = ''
+  let githubId: string = ''
   try {
-    githubId = req.header('githubId')
+    githubId = req.header('githubId')!
     if (!githubId) {
       return null;
     }
