@@ -1,39 +1,24 @@
+import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 
 require("dotenv").config();
 
 const TODO = require("../models/todo-model");
-const USER = require("../models/user-model");
 const CATEGORY = require("../models/category-model");
 
-//const getUserId = async (req: Request) => {
-//  const authHeader = req.headers.authorization;
-//  if (!authHeader) {
-//    return 0;
-//  }
-//  const token = await authHeader.split(" ")[1].toString();
-//  const payloadJWT: any = await jwt.verify(
-//    token,
-//    process.env.ACCESS_TOKEN_SECRET
-//  );
-//  return payloadJWT.userId;
-//};
-
 const getUserId = async (req: Request) => {
-  let githubId: string = ''
-  try {
-    githubId = req.header('githubId')!
-    if (!githubId) {
-      return null;
-    }
-    const users = await USER.findOne({
-      githubId: githubId,
-    });
-    return users.id
-  } catch (err) {
-    return null
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return 0;
   }
+  const token = await authHeader.split(" ")[1].toString();
+  const payloadJWT: any = await jwt.verify(
+    token,
+    process.env.ACCESS_TOKEN_SECRET
+  );
+  return payloadJWT.userId;
 };
+
 const categories = async (req: Request, res: Response) => {
   let userId: Number = 0;
   userId = await getUserId(req);

@@ -32,8 +32,8 @@ const main = async () => {
   app.use('/BigDayPlanner', bigDayPlannerRouter)
 
   app.get('/VSCodeToDo/auth/github',
-    passport.authenticate('github', { session: false }));
-
+    passport.authenticate('github', { session: false })
+  );
   app.get('/VSCodeToDo/auth/github/callback',
     passport.authenticate('github', { session: false }),
     (req: any, res) => {
