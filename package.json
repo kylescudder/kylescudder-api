@@ -32,7 +32,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.8",
     "mongoose": "^5.13.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "node-mailjet": "^3.3.4",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
