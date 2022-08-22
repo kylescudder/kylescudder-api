@@ -43,10 +43,10 @@ const issues = async (req: Request, res: Response) => {
 const authenticate = async (req: Request, res: Response) => {
   const { code } = req.body;
   const data = new FormData();
-  data.append('client_id', process.env.CLIENT_ID!);
-  data.append('client_secret', process.env.CLIENT_SECRET!);
+  data.append('client_id', process.env.GHB_CLIENT_ID!);
+  data.append('client_secret', process.env.GHB_CLIENT_SECRET!);
   data.append('code', code);
-  data.append('redirect_uri', process.env.REDIRECT_URI!);
+  data.append('redirect_uri', process.env.GHB_REDIRECT_URI!);
   let accessToken = '';
   // Request to exchange code for an access token
   try {
