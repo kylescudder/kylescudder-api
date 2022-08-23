@@ -7,13 +7,9 @@ const bigDayPlannerDatabase = 'wedding-site'
 
 export const toDoConn = mongoose.createConnection(`mongodb+srv://${server}/${toDoDatabase}`, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
+  useUnifiedTopology: true
 })
 export const bigDayPlannerConn = mongoose.createConnection(`mongodb+srv://${server}/${bigDayPlannerDatabase}`, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
+  useUnifiedTopology: true
 })
