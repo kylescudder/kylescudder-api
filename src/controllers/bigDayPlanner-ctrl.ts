@@ -167,16 +167,14 @@ const updateGuest = async (req: Request, res: Response) => {
         error: 'You must provide a body to update'
       })
     }
-    const guest = await GUEST.findOneAndUpdate(
-      {
-        _id: req.params.id
-      }, {
-        forename: body.forename,
-        surname: body.surname,
-        guestGroupID: body.guestGroupID
+    const guest = await GUEST.findOneAndUpdate({
+      _id: req.params.id
+    }, {
+      forename: body.forename,
+      surname: body.surname,
+      guestGroupID: body.guestGroupID
 
-      }
-    )
+    })
     if (!guest) {
       return res.status(404).json({
         message: 'Guest not found!'

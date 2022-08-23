@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import express from 'express'
+import express, { RequestHandler } from 'express'
 import passport from 'passport'
 import createPassport from './db/passport'
 import createThingsToDoPassport from './db/thingsToDoPassport'
@@ -22,7 +22,7 @@ const main = async () => {
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
   app.use(passport.initialize())
-  app.use(express.json())
+  app.use(express.json() as RequestHandler)
   await createPassport()
   await createThingsToDoPassport()
 
@@ -33,20 +33,28 @@ const main = async () => {
   app.use('/ThingsToDo', thingsToDoRouter)
   app.use('/BigDayPlanner', bigDayPlannerRouter)
 
-  app.get('/VSCodeToDo/auth/github',
-    passport.authenticate('github', { session: false }))
-  app.get('/VSCodeToDo/auth/github/callback',
+  app.get(
+    '/VSCodeToDo/auth/github',
+    passport.authenticate('github', { session: false })
+  )
+  app.get(
+    '/VSCodeToDo/auth/github/callback',
     passport.authenticate('github', { session: false }),
     (req: any, res) => {
       res.redirect(`${process.env.EXTENSION_URL}/auth/${req.user.accessToken}`)
-    })
-  app.get('/ThingsToDo/auth/github',
-    passport.authenticate('github', { session: false }))
-  app.get('/ThingsToDo/auth/github/callback',
+    }
+  )
+  app.get(
+    '/ThingsToDo/auth/github',
+    passport.authenticate('github', { session: false })
+  )
+  app.get(
+    '/ThingsToDo/auth/github/callback',
     passport.authenticate('github', { session: false }),
     (req: any, res) => {
       res.redirect(`${process.env.THINGSTODO_REDIRECT_URL}/callback?code=${req.user.accessToken}`)
-    })
+    }
+  )
 
   app.get('/', (_req, res) => {
     res.send('Hello')

@@ -9,7 +9,7 @@ const issues = async (req: Request, res: Response) => {
   const { repo, milestone, atid } = req.body
   // Request to exchange code for an access token
   try {
-    const milestoneResponse = await fetch(`https://api.github.com/repos/PalomaSystems/${repo}/milestones`, {
+    const milestoneResponse: any = await fetch(`https://api.github.com/repos/PalomaSystems/${repo}/milestones`, {
       headers: {
         authorization: `token ${atid}`
       },
