@@ -41,12 +41,12 @@ const issues = async (req: Request, res: Response) => {
   }
 }
 const authenticate = async (req: Request, res: Response) => {
-  data.append('client_id', process.env.GHB_CLIENT_ID!);
-  data.append('client_secret', process.env.GHB_CLIENT_SECRET!);
-  data.append('code', code);
-  data.append('redirect_uri', process.env.GHB_REDIRECT_URI!);
   const { code } = req.body
   const data = new FormData()
+  data.append('client_id', process.env.GHIB_CLIENT_ID!)
+  data.append('client_secret', process.env.GHIB_CLIENT_SECRET!)
+  data.append('code', code)
+  data.append('redirect_uri', process.env.GHIB_REDIRECT_URI!)
   let accessToken = ''
   // Request to exchange code for an access token
   try {
