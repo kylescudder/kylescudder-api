@@ -7,7 +7,6 @@
   },
   "activationEvents": [],
   "main": "dist/app.js",
-  "type": "module",
   "scripts": {
     "watch": "tsc -w",
     "server": "nodemon dist/app.js",
@@ -35,7 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.9.0",
     "mongoose": "^6.5.2",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^2.6.7",
     "node-mailjet": "^5.1.1",
     "passport": "^0.6.0",
     "passport-github": "^1.1.0",
