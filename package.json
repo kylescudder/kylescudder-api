@@ -6,7 +6,8 @@
     "node": "14.17.3"
   },
   "activationEvents": [],
-  "main": "app.js",
+  "main": "dist/app.js",
+  "type": "module",
   "scripts": {
     "watch": "tsc -w",
     "server": "nodemon dist/app.js",
