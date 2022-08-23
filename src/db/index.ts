@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-require('dotenv-safe').config();
+require('dotenv-safe').config()
 
 const server = process.env.MONGODB_SERVER
 const toDoDatabase = 'vscodetodo'

@@ -21,10 +21,11 @@
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",
-    "semi": "off",
-    "linebreak-style": ["error", "unix"],
+    "semi": [2, "never"],
+    "linebreak-style": ["error", "windows"],
     "indent": ["error", 2],
     "import/extensions": "off",
-    "no-underscore-dangle": ["error", 0]
+    "no-underscore-dangle": ["error", { "allow": ["_place"] }],
+    "comma-dangle": [2, "never"]
   }
 }

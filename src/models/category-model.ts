@@ -1,5 +1,5 @@
-import { Schema } from "mongoose";
-import { toDoConn } from "../db/index";
+import { Schema } from 'mongoose'
+import { toDoConn } from '../db/index'
 
 // 1. Create an interface representing a document in MongoDB.
 interface Category {
@@ -14,8 +14,8 @@ const categorySchema = new Schema<Category>({
   id: { type: Number, required: true },
   text: { type: String, required: true },
   userId: { type: Number, required: true },
-  toDoCount: { type: Number, required: false },
-});
-const categoryModel = toDoConn.model("categories", categorySchema);
+  toDoCount: { type: Number, required: false }
+})
+const categoryModel = toDoConn.model('categories', categorySchema)
 
-module.exports = categoryModel;
+module.exports = categoryModel

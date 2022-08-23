@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema } from 'mongoose'
 import { bigDayPlannerConn } from '../../db/index'
 
 // 1. Create an interface representing a document in MongoDB.
@@ -12,9 +12,9 @@ interface BigDayPlannerUser {
 const bigDayPlannerUserSchema = new Schema<BigDayPlannerUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 5 },
-  displayName: { type: String },
+  displayName: { type: String }
 
-});
-const bigDayPlannerUserModel = bigDayPlannerConn.model('user', bigDayPlannerUserSchema);
+})
+const bigDayPlannerUserModel = bigDayPlannerConn.model('user', bigDayPlannerUserSchema)
 
-module.exports = bigDayPlannerUserModel;
+module.exports = bigDayPlannerUserModel

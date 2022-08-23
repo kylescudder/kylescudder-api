@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema } from 'mongoose'
 import { toDoConn } from '../db/index'
 
 // 1. Create an interface representing a document in MongoDB.
@@ -12,8 +12,8 @@ interface User {
 const userSchema = new Schema<User>({
   id: { type: Number, required: true },
   name: { type: String, required: true },
-  githubId: { type: String, required: false },
-});
-const userModel = toDoConn.model('users', userSchema);
+  githubId: { type: String, required: false }
+})
+const userModel = toDoConn.model('users', userSchema)
 
-module.exports = userModel;
+module.exports = userModel

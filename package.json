@@ -12,6 +12,8 @@
     "server": "nodemon dist/app.js",
     "start": "node dist/app.js",
     "postinstall": "tsc",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
     "dev": "concurrently --kill-others \"npm run watch\" \"npm run server\""
   },
   "keywords": [],
