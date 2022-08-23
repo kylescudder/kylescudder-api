@@ -6,12 +6,12 @@ require('dotenv').config()
 
 const issues = async (req: Request, res: Response) => {
   let milestoneNumber = 0
-  const { repo, milestone, at_id } = req.body
+  const { repo, milestone, atid } = req.body
   // Request to exchange code for an access token
   try {
     const milestoneResponse = await fetch(`https://api.github.com/repos/PalomaSystems/${repo}/milestones`, {
       headers: {
-        authorization: `token ${at_id}`
+        authorization: `token ${atid}`
       },
       method: 'GET'
     })
@@ -30,7 +30,7 @@ const issues = async (req: Request, res: Response) => {
     }
     const response = await fetch(url, {
       headers: {
-        authorization: `token ${at_id}`
+        authorization: `token ${atid}`
       },
       method: 'GET'
     })

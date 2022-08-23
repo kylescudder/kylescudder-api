@@ -1,4 +1,3 @@
-import FormData from 'form-data'
 import fetch from 'node-fetch'
 import { Request, Response } from 'express'
 
@@ -52,7 +51,7 @@ const authenticate = async (req: Request, res: Response) => {
   try {
     const response = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
-      body: data
+      body: JSON.stringify(data)
     })
     const responseData = await response.text()
     const params = new URLSearchParams(responseData)

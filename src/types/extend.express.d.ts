@@ -3,3 +3,4 @@ declare namespace Express {
         userId: number;
     }
 }
+export default Express

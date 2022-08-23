@@ -16,7 +16,6 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/naming-convention": "warn",
     "@typescript-eslint/semi": "off",
     "curly": "warn",
     "eqeqeq": "warn",
@@ -25,7 +24,19 @@
     "linebreak-style": ["error", "windows"],
     "indent": ["error", 2],
     "import/extensions": "off",
-    "no-underscore-dangle": ["error", { "allow": ["_place"] }],
-    "comma-dangle": [2, "never"]
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+    "comma-dangle": [2, "never"],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "variable",
+        "format": ["camelCase", "UPPER_CASE"]
+      },
+      {
+        "selector": "typeProperty",
+        "format": ["camelCase", "UPPER_CASE"]
+      }
+    ],
+    "no-await-in-loop": "off"
   }
 }

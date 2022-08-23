@@ -106,6 +106,10 @@ const tokenIsValidUser = async (req: Request, res: Response) => {
     return res.status(500).json({ error: err.message })
   }
 }
+const validateUser = async (token:string) => {
+  const verified:UserData = verify(token, process.env.JWT_SECRET as string) as UserData
+  return verified.id
+}
 const getUserInfo = async (req: Request, res: Response) => {
   const userId = await validateUser(req.header('x-auth-token') || '')
   const user = await BIGDAYPLANNERUSER.findById(userId)
@@ -113,10 +117,6 @@ const getUserInfo = async (req: Request, res: Response) => {
     displayName: user.displayName,
     id: user._id
   })
-}
-const validateUser = async (token:string) => {
-  const verified:UserData = verify(token, process.env.JWT_SECRET as string) as UserData
-  return verified.id
 }
 const createGuest = async (req: Request, res: Response) => {
   try {
