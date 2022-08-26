@@ -10,9 +10,9 @@ interface BigDayPlannerUser {
 
 // 2. Create a Schema corresponding to the document interface.
 const bigDayPlannerUserSchema = new Schema<BigDayPlannerUser>({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true, minlength: 5 },
-  displayName: { type: String }
+	email: { type: String, required: true, unique: true },
+	password: { type: String, required: true, minlength: 5 },
+	displayName: { type: String }
 
 })
 const bigDayPlannerUserModel = bigDayPlannerConn.model('user', bigDayPlannerUserSchema)

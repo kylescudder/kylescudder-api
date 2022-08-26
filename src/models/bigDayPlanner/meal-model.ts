@@ -10,9 +10,9 @@ interface Meal {
 
 // 2. Create a Schema corresponding to the document interface.
 const mealSchema = new Schema<Meal>({
-  course: { type: String, required: true },
-  mealName: { type: String, required: true },
-  vg: { type: Boolean, required: true }
+	course: { type: String, required: true },
+	mealName: { type: String, required: true },
+	vg: { type: Boolean, required: true }
 
 })
 const mealModel = bigDayPlannerConn.model('meal', mealSchema)

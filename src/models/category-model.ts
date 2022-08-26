@@ -11,10 +11,10 @@ interface Category {
 
 // 2. Create a Schema corresponding to the document interface.
 const categorySchema = new Schema<Category>({
-  id: { type: Number, required: true },
-  text: { type: String, required: true },
-  userId: { type: Number, required: true },
-  toDoCount: { type: Number, required: false }
+	id: { type: Number, required: true },
+	text: { type: String, required: true },
+	userId: { type: Number, required: true },
+	toDoCount: { type: Number, required: false }
 })
 const categoryModel = toDoConn.model('categories', categorySchema)
 
