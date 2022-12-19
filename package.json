@@ -32,7 +32,7 @@
     "form-data": "^4.0.0",
     "global": "^4.4.0",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^4.9.0",
+    "mongodb": "^4.13.0",
     "mongoose": "^6.5.2",
     "node-fetch": "^2.6.7",
     "node-mailjet": "^5.1.1",
