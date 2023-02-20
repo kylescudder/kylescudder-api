@@ -47,7 +47,7 @@
     "@types/node": "^18.7.11",
     "@types/node-fetch": "^2.6.2",
     "@types/node-mailjet": "^3.3.9",
-    "@types/passport": "^1.0.10",
+    "@types/passport": "^1.0.12",
     "@types/passport-github": "^1.1.7",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
